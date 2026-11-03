@@ -24,3 +24,16 @@ node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+/.agents
+/.claude
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+# Playwright MCP screenshots & snapshots
+.playwright-mcp/

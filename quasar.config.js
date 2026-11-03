@@ -25,8 +25,7 @@ export default defineConfig((/* ctx */) => {
       // 'themify',
       // 'line-awesome',
 
-      'roboto-font', // optional, you are not bound to it
-      'material-icons' // optional, you are not bound to it
+      'material-symbols-outlined' // see design.md → Icons
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#build
@@ -43,7 +42,6 @@ export default defineConfig((/* ctx */) => {
       // vueRouterBase,
 
       // publicPath: '/',
-      // define: {},
       // defineEnv: {}
       // ignorePublicFolder: true,
       // minify: false,
@@ -70,9 +68,22 @@ export default defineConfig((/* ctx */) => {
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#framework
     framework: {
-      config: {},
+      // Brand colors (light only, `dark` = sidebar navy): see design.md → Color
+      config: {
+        dark: false,
+        brand: {
+          primary: '#182333',
+          secondary: '#667085',
+          accent: '#34465D',
+          dark: '#182333',
+          positive: '#16845B',
+          negative: '#dc2626',
+          info: '#2563eb',
+          warning: '#d97706'
+        }
+      },
 
-      // iconSet: 'material-icons', // Quasar icon set
+      iconSet: 'material-symbols-outlined', // Quasar icon set
       // lang: 'en-US', // Quasar language pack
 
       // For special cases outside of where the auto-import strategy can have an impact

@@ -1,32 +1,74 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
+    <q-header bordered>
+      <q-toolbar class="q-px-md">
         <q-btn
           flat
-          dense
           round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
+          dense
+          icon="sym_o_menu"
+          aria-label="Toggle sidebar"
+          @click="toggleSidebar"
         />
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
+        <AppBreadcrumbs class="gt-xs q-ml-sm" />
 
-        <div>Quasar v{{ $q.version }}</div>
+        <q-space />
+
+        <div class="row items-center no-wrap q-gutter-x-sm">
+          <q-input
+            v-model="search"
+            dense
+            outlined
+            placeholder="Search…"
+            class="gt-sm"
+            style="width: 240px"
+          >
+            <template #prepend>
+              <q-icon name="sym_o_search" size="20px" />
+            </template>
+          </q-input>
+          <q-btn
+            flat
+            round
+            dense
+            icon="sym_o_search"
+            class="lt-md"
+            aria-label="Search"
+          />
+
+          <UserMenu :user="currentUser" />
+        </div>
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
-        <q-item-label header> Essential Links </q-item-label>
+    <q-drawer
+      v-model="drawerOpen"
+      show-if-above
+      dark
+      class="app-sidebar"
+      :mini="isMini"
+      :width="240"
+      :mini-width="64"
+    >
+      <div class="column no-wrap full-height">
+        <div class="app-brand row items-center no-wrap q-px-md q-gutter-x-sm">
+          <q-avatar
+            size="32px"
+            rounded
+            color="white"
+            text-color="primary"
+            icon="sym_o_grid_view"
+          />
+          <div v-if="!isMini" class="text-subtitle1 text-weight-medium">
+            Admin
+          </div>
+        </div>
 
-        <EssentialLink
-          v-for="link in linksList"
-          :key="link.label"
-          v-bind="link"
-        />
-      </q-list>
+        <q-scroll-area class="col">
+          <SidebarNav :groups="navigation" :mini="isMini" />
+        </q-scroll-area>
+      </div>
     </q-drawer>
 
     <q-page-container>
@@ -36,57 +78,28 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import EssentialLink from '@/components/EssentialLink.vue'
+import { computed, ref } from 'vue'
+import { useQuasar } from 'quasar'
+import AppBreadcrumbs from '@/components/layout/AppBreadcrumbs.vue'
+import SidebarNav from '@/components/layout/SidebarNav.vue'
+import UserMenu from '@/components/layout/UserMenu.vue'
+import { currentUser } from '@/mocks/user'
+import { navigation } from '@/router/navigation'
 
-const linksList = [
-  {
-    label: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    label: 'GitHub',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    label: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    label: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    label: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    label: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    label: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
+const $q = useQuasar()
+
+const drawerOpen = ref(false)
+const mini = ref(false)
+const search = ref('')
+
+// Mini mode only applies on desktop; the mobile drawer is always full width
+const isMini = computed(() => mini.value && $q.screen.gt.sm)
+
+function toggleSidebar() {
+  if ($q.screen.gt.sm) {
+    mini.value = !mini.value
+  } else {
+    drawerOpen.value = !drawerOpen.value
   }
-]
-
-const leftDrawerOpen = ref(false)
-
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
 }
 </script>

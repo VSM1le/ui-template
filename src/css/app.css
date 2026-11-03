@@ -1,1 +1,165 @@
-/* app global css */
+/* app global css: tokens & overrides defined in design.md */
+
+/* ---------- Tokens ---------- */
+:root {
+  --app-font:
+    'IBM Plex Sans', 'IBM Plex Sans Thai', -apple-system, 'Segoe UI', sans-serif;
+
+  /* Content (light) */
+  --app-bg-page: #f5f7fa;
+  --app-bg-surface: #ffffff;
+  --app-bg-hover: #eef1f5;
+  --app-border: #e5e7eb;
+  --app-text: #182333;
+  --app-text-muted: #667085;
+
+  /* Sidebar (navy) */
+  --app-sidebar-bg: #182333;
+  --app-sidebar-text: #ffffff;
+  --app-sidebar-text-muted: #b6c1d0;
+  --app-sidebar-active: #34465d;
+  --app-sidebar-hover: rgba(255, 255, 255, 0.06);
+  --app-sidebar-border: rgba(255, 255, 255, 0.08);
+
+  --app-radius: 8px;
+  --app-sidebar-width: 240px;
+  --app-sidebar-mini-width: 64px;
+  --app-topbar-height: 56px;
+
+  /* Chart series palette (muted categorical) */
+  --app-chart-1: #4e79a7;
+  --app-chart-2: #f28e2b;
+  --app-chart-3: #59a14f;
+  --app-chart-4: #e15759;
+  --app-chart-5: #76b7b2;
+  --app-chart-6: #b07aa1;
+}
+
+/* ---------- Base ---------- */
+body {
+  font-family: var(--app-font);
+  color: var(--app-text);
+  background: var(--app-bg-page);
+}
+
+/* ---------- Utilities ---------- */
+.text-muted {
+  color: var(--app-text-muted) !important;
+}
+
+.text-sidebar-muted {
+  color: var(--app-sidebar-text-muted) !important;
+}
+
+.bg-hover {
+  background: var(--app-bg-hover) !important;
+}
+
+.bg-surface {
+  background: var(--app-bg-surface) !important;
+}
+
+/* ---------- Quasar overrides ---------- */
+
+/* Sentence-case buttons and tabs everywhere (Quasar defaults to uppercase) */
+.q-btn,
+.q-tab {
+  text-transform: none;
+}
+
+/* One radius for cards, inputs, buttons, menus, dialogs */
+.q-card,
+.rounded-borders,
+.q-btn:not(.q-btn--round),
+.q-field--outlined .q-field__control,
+.q-menu {
+  border-radius: var(--app-radius);
+}
+
+/* Subtle neutral borders & separators instead of Quasar's rgba defaults */
+.q-card--bordered,
+.q-header--bordered,
+.q-table--bordered {
+  border-color: var(--app-border);
+}
+
+.q-separator {
+  background: var(--app-border);
+}
+
+/* Table header: medium weight, muted (see design.md → Tables) */
+.q-table th {
+  font-weight: 500;
+  color: var(--app-text-muted);
+}
+
+/* Status badge: soft tint of its text color (see design.md → Status badges) */
+.q-badge.app-badge-soft {
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  padding: 4px 8px;
+  border-radius: var(--app-radius);
+}
+
+/* Error banner: negative outline (see design.md → States) */
+.app-banner-negative {
+  border: 1px solid var(--q-negative);
+  color: var(--q-negative);
+  background: var(--app-bg-surface);
+}
+
+/* ---------- App shell (see design.md → App shell) ---------- */
+
+/* Top bar: white surface, dark text, bottom border instead of shadow */
+.q-header {
+  background: var(--app-bg-surface);
+  color: var(--app-text);
+}
+
+.q-header .q-toolbar,
+.app-brand {
+  min-height: var(--app-topbar-height);
+}
+
+/* Sidebar: navy surface, muted items, lighter navy for the active item */
+.app-sidebar {
+  background: var(--app-sidebar-bg);
+  color: var(--app-sidebar-text);
+}
+
+.app-sidebar .app-brand {
+  border-bottom: 1px solid var(--app-sidebar-border);
+}
+
+.app-sidebar .q-separator {
+  background: var(--app-sidebar-border);
+}
+
+.app-nav-item {
+  color: var(--app-sidebar-text-muted);
+}
+
+.app-nav-item:hover,
+.app-nav-item--current,
+.app-nav-item--active {
+  color: var(--app-sidebar-text);
+}
+
+.app-nav-item.q-hoverable:hover > .q-focus-helper {
+  background: var(--app-sidebar-hover);
+  opacity: 1;
+}
+
+.app-nav-item.q-hoverable:hover > .q-focus-helper::before,
+.app-nav-item.q-hoverable:hover > .q-focus-helper::after {
+  opacity: 0;
+}
+
+.app-nav-item--active {
+  background: var(--app-sidebar-active);
+}
+
+/* Mini mode: Quasar sizes items to the full drawer width, which ignores the
+   list's side padding and pushes icons off-center. Let them fit the list. */
+.q-drawer-container .q-drawer--mini .app-sidebar .q-item.app-nav-item {
+  width: auto;
+}

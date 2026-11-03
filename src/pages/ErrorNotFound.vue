@@ -1,21 +1,22 @@
 <template>
-  <div
-    class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center"
-  >
-    <div>
-      <div style="font-size: 30vh"> 404 </div>
-
-      <div class="text-h2" style="opacity: 0.4"> Oops. Nothing here... </div>
-
-      <q-btn
-        class="q-mt-xl"
-        color="white"
-        text-color="blue"
-        unelevated
-        to="/"
-        label="Go Home"
-        no-caps
-      />
-    </div>
+  <div class="fullscreen flex flex-center q-pa-md">
+    <EmptyState
+      icon="sym_o_explore_off"
+      title="Page not found"
+      message="The page you are looking for does not exist."
+    >
+      <template #action>
+        <q-btn
+          unelevated
+          color="primary"
+          :to="{ name: 'dashboard' }"
+          label="Back to dashboard"
+        />
+      </template>
+    </EmptyState>
   </div>
 </template>
+
+<script setup>
+import EmptyState from '@/components/common/EmptyState.vue'
+</script>
